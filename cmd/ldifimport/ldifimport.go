@@ -24,19 +24,20 @@ type ModifyModListOptions struct {
 }
 
 func main() {
-	var configFN string
-	var ldifFN string
-	flag.StringVar(&configFN, "config", "", "Location of configuration file")
-	flag.StringVar(&ldifFN, "ldif", "", "Location of LDIF file")
 	flag.Parse()
 
-	if len(configFN) == 0 || len(ldifFN) == 0 {
+	if flags.printVersion {
+		printVersion()
+		return
+	}
+
+	if len(flags.configFN) == 0 || len(flags.ldifFN) == 0 {
 		fmt.Println("Usage: ldifimport.go")
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
 
-	cfg, err := config.GetOptions(configFN)
+	cfg, err := config.GetOptions(flags.configFN)
 	if err != nil {
 		exitGracefully(fmt.Errorf("failed to get options. %s", err))
 	}
@@ -44,7 +45,7 @@ func main() {
 	if err != nil {
 		exitGracefully(fmt.Errorf("failed to bind. %s", err))
 	}
-	if err := parseLDIFFile(ldifFN, &LDIFOptions{Callback: callback}); err != nil {
+	if err := parseLDIFFile(flags.ldifFN, &LDIFOptions{Callback: callback}); err != nil {
 		exitGracefully(fmt.Errorf("failed to parse ldif. %s", err))
 	}
 	conn.Close()
