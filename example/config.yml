@@ -1,0 +1,5 @@
+host: 192.168.33.11
+port: 1636
+bindDN: cn=Directory Manager
+bindPassword: Passw0rd
+usessl: true

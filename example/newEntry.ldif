@@ -1,0 +1,10 @@
+version: 1
+
+dn: uid=nirving,ou=people,ou=identities
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Nicholas Irving
+sn: Irving
+uid: nirving
