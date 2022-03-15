@@ -1,4 +1,4 @@
-module github.com/darkedges/ldifimport
+module github.com/darkedges/ldifcmd
 
 go 1.17
 

@@ -1,0 +1,4 @@
+version: 1
+
+dn: uid=nirving,ou=people,ou=identities
+changetype: delete

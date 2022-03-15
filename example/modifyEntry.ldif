@@ -1,0 +1,15 @@
+version: 1
+
+dn: uid=nirving,ou=people,ou=identities
+changetype: modify
+delete: carlicense
+carlicense: 12345
+carlicense: 12346
+-
+add: employeeNumber
+employeeNumber: 1234
+-
+replace: cn
+cn: Nicholas Peter Irving
+cn: Nicholas Irving
+-

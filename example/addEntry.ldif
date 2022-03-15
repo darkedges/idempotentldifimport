@@ -1,0 +1,15 @@
+version: 1
+
+dn: uid=nirving,ou=people,ou=identities
+changetype: add
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Nicholas Irving
+sn: Irving
+uid: nirving
+carLicense: 1234
+carLicense: 12345
+carLicense: 12346
+employeeNumber: 1235

@@ -9,7 +9,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/darkedges/ldifimport/config"
+	"github.com/darkedges/ldifcmd/config"
 	"github.com/go-ldap/ldap/v3"
 	"github.com/go-ldap/ldif"
 )
@@ -26,18 +26,18 @@ type ModifyModListOptions struct {
 func main() {
 	flag.Parse()
 
-	if flags.printVersion {
-		printVersion()
+	if config.Flags.PrintVersion {
+		config.PrintVersion()
 		return
 	}
 
-	if len(flags.configFN) == 0 || len(flags.ldifFN) == 0 {
-		fmt.Println("Usage: ldifimport.go")
+	if len(config.Flags.ConfigFN) == 0 || len(config.Flags.LdifFN) == 0 {
+		fmt.Println("Usage: ldifimport")
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
 
-	cfg, err := config.GetOptions(flags.configFN)
+	cfg, err := config.GetOptions(config.Flags.ConfigFN)
 	if err != nil {
 		exitGracefully(fmt.Errorf("failed to get options. %s", err))
 	}
@@ -45,7 +45,7 @@ func main() {
 	if err != nil {
 		exitGracefully(fmt.Errorf("failed to bind. %s", err))
 	}
-	if err := parseLDIFFile(flags.ldifFN, &LDIFOptions{Callback: callback}); err != nil {
+	if err := parseLDIFFile(config.Flags.LdifFN, &LDIFOptions{Callback: callback}); err != nil {
 		exitGracefully(fmt.Errorf("failed to parse ldif. %s", err))
 	}
 	conn.Close()
@@ -69,7 +69,7 @@ func connect(cfg config.Config) (conn *ldap.Conn, err error) {
 	return
 }
 
-func modifyModList(options *ModifyModListOptions) {
+func ModifyModList(options *ModifyModListOptions) {
 	oldEntryDictionary := convertToDictionary(options.OldEntry)
 	newEntryDictionary := convertToDictionary(options.NewEntry)
 	ignore_attr_types := toLower(options.ignore_attr_types)
@@ -208,7 +208,7 @@ func callback(entry *ldif.Entry) {
 			}
 		case "add":
 			modifyRequest := ldap.NewModifyRequest(entry.Entry.DN, nil)
-			modifyModList(&ModifyModListOptions{OldEntry: sr.Entries[0], NewEntry: entry.Entry, ModifyRequest: modifyRequest})
+			ModifyModList(&ModifyModListOptions{OldEntry: sr.Entries[0], NewEntry: entry.Entry, ModifyRequest: modifyRequest})
 			if len(modifyRequest.Changes) > 0 {
 				err = conn.Modify(modifyRequest)
 				if err != nil {

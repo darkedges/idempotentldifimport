@@ -1,4 +1,4 @@
-package main
+package config
 
 import "fmt"
 
@@ -12,7 +12,7 @@ var (
 	gitRef     = notSet
 )
 
-func printVersion() {
+func PrintVersion() {
 	fmt.Printf("Version:    %s\n", appVersion)
 	fmt.Printf("Build Time: %s\n", buildTime)
 	fmt.Printf("Git Commit: %s\n", gitCommit)
